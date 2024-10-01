@@ -1,3 +1,8 @@
+# Test script til Terraform. Lavet med Chat GPT da jeg ikke har erfaring med Terraform. Arbejder med LocalStack til at simulere AWS services. 
+# Scriptet starter 5 EC2 instancer og installerer Nginx på hver af dem.
+# Alle køre lokalt i en docker container med localstack, og kan ikke tilgås via LH eller IP.
+# Prøv det ^^
+
 terraform {
   required_providers {
     aws = {
@@ -18,11 +23,11 @@ provider "aws" {
 }
 
 resource "aws_instance" "web_server" {
-  ami           = "ami-06ca3ca175f37dd66"  # Dummy AMI for LocalStack simulation
+  ami           = "ami-06ca3ca175f37dd66"  # Amazon machine images (AMI) for Ubuntu 20.04 (køre op EC2)
   instance_type = "t2.micro"
   count         = 5
 
-  # Startup script to install Nginx and create an HTML page
+  # Starter vores EC2 server og installerer Nginx (chatGPT)
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update
@@ -31,7 +36,7 @@ resource "aws_instance" "web_server" {
               sudo systemctl restart nginx
             EOF
 
-  # Open HTTP port 80
+  # Åbner port 80
   security_groups = [aws_security_group.web_server_sg.name]
 
   tags = {
@@ -39,7 +44,7 @@ resource "aws_instance" "web_server" {
   }
 }
 
-# Security group to allow HTTP traffic
+# Protokol for at tillade HTTP trafik
 resource "aws_security_group" "web_server_sg" {
   name        = "web-server-sg"
   description = "Allow HTTP inbound traffic"
