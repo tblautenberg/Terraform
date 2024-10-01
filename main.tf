@@ -23,9 +23,9 @@ provider "aws" {
 }
 
 resource "aws_instance" "web_server" {
-  ami           = "ami-06ca3ca175f37dd66"  # Amazon machine images (AMI) for Ubuntu 20.04 (køre op EC2)
-  instance_type = "t2.micro"
-  count         = 5
+  ami           = "ami-06ca3ca175f37dd66"  # Amazon machine image(s) (AMI) for Ubuntu 20.04 (køre op EC2)
+  instance_type = "t2.micro" # EC2 instance type
+  count         = 5 
 
   # Starter vores EC2 server og installerer Nginx (chatGPT)
   user_data = <<-EOF
